@@ -3,6 +3,7 @@
 
 <head>
   <script data-require="jquery@*" data-semver="2.1.3" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="jquery.blockUI.min.js"></script>
   <link data-require="bootstrap@*" data-semver="3.3.2" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
   <script data-require="bootstrap@*" data-semver="3.3.2" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script data-require="angular.js@1.4.0-rc.1" data-semver="1.4.0-rc.1" src="https://code.angularjs.org/1.4.0-rc.1/angular.js"></script>
@@ -11,7 +12,7 @@
 </head>
 
 <body ng-app="testBusyDirective">
-  <!--<h1>Hello crazy clicker!</h1>-->
+  <h1>Hello crazy clicker!</h1>
   <h2>Busy on ajax call</h2>
   <div ng-controller="SomeController as ctrl">
   <busy-area name="testBusy">

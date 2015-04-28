@@ -8,6 +8,7 @@ angular.module('testBusyDirective', [])
         self.someText = 'click in progress';
 		return $http.get('/api/delay').then(function(){
 			self.someText = 'click is over';
+			return $timeout(function(){ self.someText = ''; }, 1000);
 		});
       };
     }
@@ -47,15 +48,19 @@ angular.module('testBusyDirective', [])
     function(BusyService) {
       return {
         restrict: 'E',
-        transclude: true,
-        template: '<div><ng-transclude></ng-transclude><div class="loading" ng-show="isBusy"><span>loading ...</span></div></div>',
+		transclude: true,
+        template: '<div ng-transclude></div>',
         scope: {
           name: '@',
         },
         link: function($scope, $element, $attrs) {
-				  $scope.isBusy = false;
 				  var setBusy = function(isBusy) {
-					$scope.isBusy = isBusy;
+					if (isBusy) {
+					  $element.children().block({ message: null, overlayCSS: { backgroundColor: '#AAAAFF' } });
+					}
+					else {
+					  $element.children().unblock();
+					}
 				  };
 				  BusyService.add($scope.name, setBusy);
 				  $scope.$on('$destroy', function() {
@@ -66,13 +71,13 @@ angular.module('testBusyDirective', [])
       };
     }
   ])
-  .directive('ngClickBusy', ['BusyService',
+  .directive('busyClick', ['BusyService',
     function(BusyService) {
       return {
         restrict: 'A',
         scope: {
           busyName: '@',
-          ngClickBusy: '&'
+          busyClick: '&'
         },
         link: function($scope, $element, $attrs) {
 				  var self = this;
@@ -84,7 +89,7 @@ angular.module('testBusyDirective', [])
 					  if ($scope.isBusy) return false;
 
 					  BusyService.setBusy($scope.busyName, true);
-					  var resultClick = $scope.ngClickBusy();
+					  var resultClick = $scope.busyClick();
 					  if (resultClick && angular.isFunction(resultClick.then)) {
 						resultClick.then(function() {
 							BusyService.setBusy($scope.busyName, false);

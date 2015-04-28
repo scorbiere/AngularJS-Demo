@@ -6,6 +6,11 @@ I use several directives :
 0. One to bind on the 'click' event
 0. One to add a visual information that a 
 
+## Depedencies ##
+
+0. [jquery 2.1.3](https://jquery.com/)
+0. [blockui](http://jquery.malsup.com/block/) or [on GitHub](https://github.com/malsup/blockui/)
+0. [angular 1.4.0](https://angularjs.org/)
 
 ## Start the demo ##
 
