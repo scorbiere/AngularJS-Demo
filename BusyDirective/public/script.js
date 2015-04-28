@@ -66,7 +66,7 @@ angular.module('testBusyDirective', [])
       };
     }
   ])
-    .directive('ngClickBusy', ['BusyService',
+  .directive('ngClickBusy', ['BusyService',
     function(BusyService) {
       return {
         restrict: 'A',
@@ -81,7 +81,7 @@ angular.module('testBusyDirective', [])
 					$scope.isBusy = isBusy;
 				  };
 				  var onClick = function() {
-					  if ($scope.isBusy) return;
+					  if ($scope.isBusy) return false;
 
 					  BusyService.setBusy($scope.busyName, true);
 					  var resultClick = $scope.ngClickBusy();
@@ -96,19 +96,53 @@ angular.module('testBusyDirective', [])
 						BusyService.setBusy($scope.busyName, false);
 					  }
 					}
+
 				  BusyService.add($scope.busyName, setBusy);
-
-				  var clickAction = $attrs.ngClickBusy;
-				  if (clickAction) {
-					$element.bind('click', onClick);
-				  }
-
+				  $element.bind('click', onClick);
 				  $scope.$on('$destroy', function() {
 					console.log("destroy");
 					BusyService.remove($scope.busyName, $scope.setBusy);
-					if (clickAction) {
-					  $element.unbind('click', onClick);
+					$element.unbind('click', onClick);
+				  });
+				}
+      };
+    }
+  ])
+  .directive('busyFormName', ['BusyService',
+    function(BusyService) {
+      return {
+        restrict: 'A',
+        scope: {
+          busyFormName: '@',
+          busyFormSubmit: '&'
+        },
+        link: function($scope, $element, $attrs) {
+				  var self = this;
+				  $scope.isBusy = false;
+				  var setBusy = function(isBusy) {
+					$scope.isBusy = isBusy;
+				  };
+				  var onSubmit = function() {
+					  if ($scope.isBusy) return false;
+
+					  BusyService.setBusy($scope.busyFormName, true);
+					  var resultClick = $scope.busyFormSubmit();
+					  if (resultClick && angular.isFunction(resultClick.then)) {
+						resultClick.then(function() {
+							BusyService.setBusy($scope.busyFormName, false);
+						  },
+						  function() {
+							BusyService.setBusy($scope.busyFormName, false);
+						  });
+					  }
 					}
+					
+				  BusyService.add($scope.busyFormName, setBusy);
+				  $element.bind('submit', onSubmit);
+				  $scope.$on('$destroy', function() {
+					console.log("destroy");
+					BusyService.remove($scope.busyFormName, $scope.setBusy);
+				    $element.unbind('submit', onSubmit);
 				  });
 				}
       };
