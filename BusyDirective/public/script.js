@@ -44,28 +44,28 @@ angular.module('testBusyDirective', [])
       };
     }
   ])
-  .directive('busyArea', ['BusyService',
+  .directive('busyAreaName', ['BusyService',
     function(BusyService) {
       return {
-        restrict: 'E',
-		transclude: true,
-        template: '<div ng-transclude></div>',
+        restrict: 'A',
+		/*transclude: true,
+        template: '<div ng-transclude></div>',*/
         scope: {
-          name: '@',
+          busyAreaName: '@',
         },
         link: function($scope, $element, $attrs) {
 				  var setBusy = function(isBusy) {
 					if (isBusy) {
-					  $element.children().block({ message: null, overlayCSS: { backgroundColor: '#AAAAFF' } });
+					  $element.block({ message: null, overlayCSS: { backgroundColor: '#707070' } });
 					}
 					else {
-					  $element.children().unblock();
+					  $element.unblock();
 					}
 				  };
-				  BusyService.add($scope.name, setBusy);
+				  BusyService.add($scope.busyAreaName, setBusy);
 				  $scope.$on('$destroy', function() {
 					console.log("destroy");
-					BusyService.remove($scope.name, $scope.setBusy);
+					BusyService.remove($scope.busyAreaName, $scope.setBusy);
 				  });
 				}
       };
@@ -90,7 +90,7 @@ angular.module('testBusyDirective', [])
 
 					  BusyService.setBusy($scope.busyName, true);
 					  var resultClick = $scope.busyClick();
-					  if (resultClick && angular.isFunction(resultClick.then)) {
+					  if (angular.isDefined(resultClick) && angular.isFunction(resultClick.then)) {
 						resultClick.then(function() {
 							BusyService.setBusy($scope.busyName, false);
 						  },
@@ -131,9 +131,9 @@ angular.module('testBusyDirective', [])
 					  if ($scope.isBusy) return false;
 
 					  BusyService.setBusy($scope.busyFormName, true);
-					  var resultClick = $scope.busyFormSubmit();
-					  if (resultClick && angular.isFunction(resultClick.then)) {
-						resultClick.then(function() {
+					  var resultSubmit = $scope.busyFormSubmit();
+					  if (angular.isDefined(resultSubmit) && angular.isFunction(resultSubmit.then)) {
+						resultSubmit.then(function() {
 							BusyService.setBusy($scope.busyFormName, false);
 						  },
 						  function() {

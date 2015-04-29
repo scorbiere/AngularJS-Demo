@@ -15,13 +15,22 @@
   <h1>Hello crazy clicker!</h1>
   <h2>Busy on ajax call</h2>
   <div ng-controller="SomeController as ctrl">
-  <busy-area name="testBusy">
-    <div>
+    <div busy-area-name="testBusy">
+	  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       <span>First input :</span>
       <input type="text" />
+	  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <span>Second input :</span>
+      <select>
+	    <option></option>
+	    <option>One</option>
+	    <option>Two</option>
+	  </select>
+	  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <span>Third input :</span>
+      <input type="text" />
     </div>
-  </busy-area>
-    <div>Some text ... <span data-ng-bind="ctrl.someText"></span>
+    <div>Click with ajax action : <span data-ng-bind="ctrl.someText"></span>
     </div>
     <div>
       <button busy-click="ctrl.doSomething()" busy-name="testBusy">Click me !</button>
@@ -32,7 +41,7 @@
   <form action="/delayAction" type="get" busy-form-name="testBusy">
     <input type="submit" value="form">
   </form>
-  <h2>Busy on standard form submit</h2>
+  <h2>Busy on angular form submit</h2>
   <div ng-controller="SomeController as ctrl">
     <form busy-form-name="testBusy" busy-form-submit="ctrl.doSomething()" >
       <input type="submit" value="form">
